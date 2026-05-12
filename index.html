@@ -1,0 +1,1057 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ponle Audio — v4 Yamaha Style</title>
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: #ffffff;
+  --bg2: #f5f5f5;
+  --bg-dark: #111111;
+  --bg-dark2: #1a1a1a;
+  --accent: #1a1a1a;
+  --accent2: #2d6be4;
+  --green: #2ecc71;
+  --orange: #e8622a;
+  --border: #e0e0e0;
+  --border-dark: #2a2a2a;
+  --text: #111111;
+  --text-muted: #666666;
+  --text-light: #999999;
+  --white: #ffffff;
+}
+
+body { font-family: 'Helvetica Neue', -apple-system, BlinkMacSystemFont, 'Arial', sans-serif; background: var(--bg); color: var(--text); line-height: 1.5; overflow-x: hidden; }
+
+/* ══ NAV ══ */
+nav {
+  position: absolute; top: 0; left: 0; right: 0; z-index: 100;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.65) 0%, transparent 100%);
+  border-bottom: none;
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 0 48px; height: 80px;
+}
+.nav-logo img { height: 52px; width: auto; display: block; }
+.nav-center { display: flex; gap: 36px; }
+.nav-center a {
+  font-size: 0.82rem; font-weight: 600; color: rgba(255,255,255,0.75);
+  text-decoration: none; letter-spacing: 0.02em;
+  padding: 4px 0; border-bottom: 2px solid transparent;
+  transition: color 0.2s, border-color 0.2s;
+}
+.nav-center a:hover { color: var(--white); border-bottom-color: rgba(255,255,255,0.6); }
+.nav-right { display: flex; align-items: center; gap: 16px; }
+.nav-cta {
+  font-size: 0.82rem; font-weight: 700;
+  background: var(--white); color: var(--text);
+  padding: 10px 22px; border-radius: 4px; text-decoration: none;
+  letter-spacing: 0.02em; transition: background 0.2s, color 0.2s;
+}
+.nav-cta:hover { background: rgba(255,255,255,0.88); }
+
+/* ══ HERO — FULL WIDTH IMAGE ══ */
+.hero {
+  position: relative; width: 100%;
+  height: 100vh; min-height: 680px;
+  overflow: hidden; display: flex; align-items: flex-end;
+}
+.hero-img {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: center 30%;
+  filter: brightness(0.5);
+}
+/* Gradient overlay — más oscuro arriba para que el nav/logo sean legibles */
+.hero-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0,0,0,0.55) 0%,
+    rgba(0,0,0,0.1) 35%,
+    rgba(0,0,0,0.5) 65%,
+    rgba(0,0,0,0.88) 100%
+  );
+}
+.hero-content {
+  position: relative; z-index: 2;
+  padding: 0 72px 100px;
+  max-width: 900px;
+}
+.hero-eyebrow {
+  font-size: 0.72rem; font-weight: 700;
+  color: rgba(255,255,255,0.85);
+  letter-spacing: 0.2em; text-transform: uppercase;
+  margin-bottom: 20px;
+  display: flex; align-items: center; gap: 12px;
+}
+.hero-eyebrow::before { content: ''; display: block; width: 32px; height: 1px; background: rgba(255,255,255,0.6); }
+.hero-title {
+  font-size: clamp(2.8rem, 5.5vw, 5rem);
+  font-weight: 900; color: var(--white);
+  line-height: 1.0; letter-spacing: -0.03em;
+  margin-bottom: 24px;
+  text-shadow: 0 2px 20px rgba(0,0,0,0.4);
+}
+.hero-title span { font-weight: 300; display: block; }
+.hero-sub {
+  font-size: 1.05rem; color: rgba(255,255,255,0.88);
+  line-height: 1.7; max-width: 520px; margin-bottom: 36px;
+}
+.hero-sub strong { color: var(--white); font-weight: 600; }
+.hero-actions { display: flex; gap: 14px; align-items: center; }
+.btn-hero-main {
+  font-size: 0.9rem; font-weight: 700;
+  background: var(--white); color: var(--text);
+  padding: 14px 32px; border-radius: 4px;
+  text-decoration: none; letter-spacing: 0.02em;
+}
+.btn-hero-sec {
+  font-size: 0.9rem; font-weight: 600;
+  color: var(--white);
+  padding: 14px 0; text-decoration: none;
+  display: flex; align-items: center; gap: 8px;
+}
+
+/* Hero bottom stats bar */
+.hero-stats-bar {
+  position: absolute; bottom: 0; left: 0; right: 0; z-index: 3;
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  background: rgba(255,255,255,0.06);
+  backdrop-filter: blur(12px);
+  border-top: 1px solid rgba(255,255,255,0.1);
+}
+.hero-stat {
+  padding: 20px 32px;
+  border-right: 1px solid rgba(255,255,255,0.1);
+  display: flex; align-items: center; gap: 16px;
+}
+.hero-stat:last-child { border-right: none; }
+.hero-stat-num { font-size: 1.8rem; font-weight: 900; color: var(--white); letter-spacing: -0.04em; line-height: 1; }
+.hero-stat-num sup { font-size: 1rem; font-weight: 700; }
+.hero-stat-label { font-size: 0.72rem; color: rgba(255,255,255,0.8); text-transform: uppercase; letter-spacing: 0.1em; line-height: 1.4; }
+
+/* ══ BRANDS STRIP ══ */
+.brands-strip {
+  background: var(--bg2);
+  border-bottom: 1px solid var(--border);
+  padding: 0;
+  overflow: hidden; position: relative;
+}
+.brands-strip-label {
+  padding: 18px 48px 0;
+  font-size: 0.65rem; font-weight: 700;
+  color: var(--text-light); text-transform: uppercase; letter-spacing: 0.2em;
+  text-align: center;
+}
+.brands-scroll {
+  display: flex; gap: 0;
+  animation: scroll-brands 35s linear infinite;
+  width: max-content; padding: 16px 0;
+}
+.brands-scroll:hover { animation-play-state: paused; }
+@keyframes scroll-brands { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
+.brands-strip::before, .brands-strip::after {
+  content: ''; position: absolute; top: 0; bottom: 0; width: 80px; z-index: 2; pointer-events: none;
+}
+.brands-strip::before { left: 0; background: linear-gradient(90deg, var(--bg2), transparent); }
+.brands-strip::after { right: 0; background: linear-gradient(-90deg, var(--bg2), transparent); }
+
+.brand-item {
+  padding: 0 36px;
+  display: flex; align-items: center; justify-content: center;
+  border-right: 1px solid var(--border);
+  height: 52px; white-space: nowrap;
+}
+.brand-item span {
+  font-size: 0.88rem; font-weight: 800;
+  color: #aaa; letter-spacing: 0.06em; text-transform: uppercase;
+  transition: color 0.2s;
+}
+.brand-item:hover span { color: var(--text); }
+.brand-item.featured span { color: #555; font-weight: 900; font-size: 0.95rem; }
+
+/* ══ SOLUTIONS GRID — Yamaha-style square cards ══ */
+.solutions-section { padding: 72px 48px; background: var(--white); }
+.solutions-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 40px; }
+.section-tag {
+  font-size: 0.68rem; font-weight: 700;
+  color: var(--text-muted); letter-spacing: 0.2em;
+  text-transform: uppercase; margin-bottom: 10px;
+}
+.section-h2 { font-size: clamp(1.6rem, 2.5vw, 2.2rem); font-weight: 900; color: var(--text); letter-spacing: -0.02em; line-height: 1.1; }
+.see-all { font-size: 0.82rem; font-weight: 600; color: var(--text); text-decoration: none; border-bottom: 1px solid var(--text); padding-bottom: 2px; white-space: nowrap; }
+
+.solutions-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+.sol-card {
+  position: relative; overflow: hidden;
+  aspect-ratio: 1 / 1;
+  cursor: pointer; border-radius: 2px;
+  background: var(--bg2);
+}
+.sol-card img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease, filter 0.3s;
+  filter: brightness(0.7);
+}
+.sol-card:hover img { transform: scale(1.05); filter: brightness(0.5); }
+.sol-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.75) 0%, transparent 60%);
+  display: flex; flex-direction: column; justify-content: flex-end;
+  padding: 28px;
+}
+.sol-cat { font-size: 0.62rem; font-weight: 700; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 0.2em; margin-bottom: 6px; }
+.sol-title { font-size: 1.2rem; font-weight: 900; color: var(--white); line-height: 1.15; margin-bottom: 8px; letter-spacing: -0.01em; }
+.sol-brands { display: flex; gap: 6px; flex-wrap: wrap; }
+.sol-brand { font-size: 0.62rem; font-weight: 600; color: rgba(255,255,255,0.45); background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); padding: 2px 7px; border-radius: 3px; }
+.sol-arrow { position: absolute; top: 20px; right: 20px; width: 34px; height: 34px; border-radius: 50%; background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,0.7); font-size: 0.9rem; opacity: 0; transition: opacity 0.3s; }
+.sol-card:hover .sol-arrow { opacity: 1; }
+
+/* ══ FEATURED PROJECT — full bleed dark ══ */
+.featured-project {
+  position: relative; height: 580px; overflow: hidden;
+  display: flex; align-items: center;
+}
+.fp-img {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: center;
+  filter: brightness(0.4);
+}
+.fp-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(105deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.2) 60%, transparent 100%);
+}
+.fp-content {
+  position: relative; z-index: 2;
+  padding: 0 72px; max-width: 700px;
+}
+.fp-tag {
+  display: inline-block;
+  font-size: 0.65rem; font-weight: 700;
+  color: var(--white); background: var(--accent2);
+  padding: 5px 12px; border-radius: 3px;
+  text-transform: uppercase; letter-spacing: 0.12em;
+  margin-bottom: 20px;
+}
+.fp-title { font-size: clamp(1.8rem, 3.5vw, 3rem); font-weight: 900; color: var(--white); line-height: 1.05; letter-spacing: -0.03em; margin-bottom: 16px; }
+.fp-desc { font-size: 1rem; color: rgba(255,255,255,0.6); line-height: 1.7; margin-bottom: 28px; max-width: 480px; }
+.fp-brands { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 32px; }
+.fp-brand { font-size: 0.7rem; font-weight: 700; color: rgba(255,255,255,0.5); background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); padding: 4px 10px; border-radius: 3px; }
+.fp-cta { display: inline-flex; align-items: center; gap: 10px; font-size: 0.88rem; font-weight: 700; color: var(--white); text-decoration: none; border-bottom: 2px solid rgba(255,255,255,0.4); padding-bottom: 4px; }
+
+/* ══ PROJECTS GRID ══ */
+.projects-section { padding: 72px 48px; background: var(--bg2); }
+.projects-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; margin-top: 40px; }
+.proj-card {
+  position: relative; overflow: hidden;
+  aspect-ratio: 4 / 3; cursor: pointer;
+  background: #ccc;
+}
+.proj-card img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s, filter 0.3s; filter: brightness(0.75); }
+.proj-card:hover img { transform: scale(1.04); filter: brightness(0.5); }
+.proj-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 55%);
+  display: flex; flex-direction: column; justify-content: flex-end;
+  padding: 24px;
+}
+.proj-tag { font-size: 0.6rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: 6px; padding: 3px 8px; border-radius: 2px; align-self: flex-start; }
+.proj-tag-audio { background: rgba(46,204,113,0.2); color: #2ecc71; border: 1px solid rgba(46,204,113,0.3); }
+.proj-tag-video { background: rgba(45,107,228,0.2); color: #5a9df7; border: 1px solid rgba(45,107,228,0.3); }
+.proj-tag-integral { background: rgba(232,98,42,0.2); color: #f0855a; border: 1px solid rgba(232,98,42,0.3); }
+.proj-title { font-size: 1rem; font-weight: 800; color: var(--white); margin-bottom: 6px; line-height: 1.2; }
+.proj-brands-row { display: flex; gap: 5px; }
+.proj-brand { font-size: 0.58rem; font-weight: 700; color: rgba(255,255,255,0.35); }
+
+/* ══ HOW IT WORKS ══ */
+.how-section { padding: 80px 48px; background: var(--white); border-top: 1px solid var(--border); }
+.how-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; margin-top: 48px; background: var(--border); border: 1px solid var(--border); }
+.how-step { background: var(--white); padding: 44px 40px; position: relative; }
+.how-num { font-size: 3.5rem; font-weight: 900; color: var(--border); line-height: 1; margin-bottom: 20px; letter-spacing: -0.04em; }
+.how-step h3 { font-size: 1.05rem; font-weight: 800; color: var(--text); margin-bottom: 12px; }
+.how-step p { font-size: 0.85rem; color: var(--text-muted); line-height: 1.75; }
+.how-step-line { position: absolute; top: 0; left: 0; width: 3px; height: 0; background: var(--text); transition: height 0.4s; }
+.how-step:hover .how-step-line { height: 100%; }
+
+/* ══ WHY — dark section ══ */
+.why-section {
+  background: var(--bg-dark);
+  padding: 80px 48px;
+}
+.why-section .section-h2 { color: var(--white); margin-bottom: 48px; }
+.why-section .section-tag { color: rgba(255,255,255,0.4); }
+.why-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.08); }
+.why-item { background: var(--bg-dark); padding: 36px 32px; }
+.why-item:hover { background: var(--bg-dark2); }
+.why-num { font-size: 0.65rem; font-weight: 700; color: rgba(255,255,255,0.25); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 16px; }
+.why-item h4 { font-size: 1rem; font-weight: 800; color: var(--white); margin-bottom: 10px; line-height: 1.2; }
+.why-item p { font-size: 0.82rem; color: rgba(255,255,255,0.45); line-height: 1.75; }
+
+/* ══ TESTIMONIALS ══ */
+.testimonials-section { padding: 80px 48px; background: var(--bg2); }
+.testimonials-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; margin-top: 48px; background: var(--border); }
+.t-card { background: var(--white); padding: 36px 32px; }
+.t-stars { font-size: 0.75rem; letter-spacing: 3px; color: #f5a623; margin-bottom: 16px; }
+.t-quote { font-size: 0.92rem; color: var(--text); line-height: 1.8; margin-bottom: 24px; font-style: italic; }
+.t-divider { width: 32px; height: 2px; background: var(--border); margin-bottom: 16px; }
+.t-author { font-size: 0.8rem; font-weight: 700; color: var(--text); }
+.t-role { font-size: 0.72rem; color: var(--text-muted); margin-top: 3px; }
+
+/* ══ CTA — full dark ══ */
+.cta-section {
+  background: var(--bg-dark);
+  padding: 100px 48px;
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 80px; align-items: start;
+}
+.cta-left .section-tag { color: rgba(255,255,255,0.4); }
+.cta-left h2 { font-size: clamp(2rem, 3.5vw, 3rem); font-weight: 900; color: var(--white); letter-spacing: -0.03em; line-height: 1.05; margin-bottom: 20px; }
+.cta-left p { font-size: 1rem; color: rgba(255,255,255,0.5); line-height: 1.75; margin-bottom: 36px; }
+.cta-points { display: flex; flex-direction: column; gap: 14px; }
+.cta-point { display: flex; align-items: flex-start; gap: 14px; font-size: 0.85rem; color: rgba(255,255,255,0.6); line-height: 1.5; }
+.cta-point-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent2); margin-top: 6px; flex-shrink: 0; }
+
+/* Form */
+.form-card {
+  background: var(--white);
+  border-radius: 4px; padding: 40px;
+}
+.form-title { font-size: 1rem; font-weight: 800; color: var(--text); margin-bottom: 6px; }
+.form-sub { font-size: 0.78rem; color: var(--text-muted); margin-bottom: 28px; padding-bottom: 20px; border-bottom: 1px solid var(--border); }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px; }
+.form-field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; }
+.form-field label { font-size: 0.68rem; font-weight: 700; color: var(--text-muted); letter-spacing: 0.08em; text-transform: uppercase; }
+.form-field input, .form-field select, .form-field textarea {
+  border: 1px solid var(--border); border-radius: 3px;
+  padding: 11px 14px; font-size: 0.87rem; color: var(--text);
+  outline: none; font-family: inherit;
+  background: var(--white); transition: border-color 0.2s;
+}
+.form-field input:focus, .form-field select:focus, .form-field textarea:focus { border-color: var(--text); }
+.form-field textarea { height: 88px; resize: none; }
+.form-submit {
+  width: 100%; background: var(--text); color: var(--white);
+  font-size: 0.9rem; font-weight: 700; padding: 14px;
+  border-radius: 3px; border: none; cursor: pointer;
+  letter-spacing: 0.04em; text-transform: uppercase;
+}
+.form-submit:hover { background: #333; }
+.form-note { font-size: 0.7rem; color: var(--text-light); text-align: center; margin-top: 12px; }
+
+/* ══ BOSE-INSPIRED: Editorial split sections ══ */
+.editorial-section {
+  display: grid; grid-template-columns: 1fr 1fr;
+  min-height: 520px;
+}
+.editorial-img { position: relative; overflow: hidden; }
+.editorial-img img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.6s; }
+.editorial-section:hover .editorial-img img { transform: scale(1.03); }
+.editorial-body {
+  padding: 72px 60px;
+  display: flex; flex-direction: column; justify-content: center;
+  background: var(--white);
+}
+.editorial-body.dark { background: var(--bg-dark); }
+.editorial-body.gray { background: var(--bg2); }
+.editorial-eyebrow { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 20px; }
+.editorial-body.dark .editorial-eyebrow { color: rgba(255,255,255,0.4); }
+.editorial-h { font-size: clamp(1.8rem, 2.8vw, 2.4rem); font-weight: 900; line-height: 1.05; letter-spacing: -0.03em; color: var(--text); margin-bottom: 18px; }
+.editorial-body.dark .editorial-h { color: var(--white); }
+.editorial-p { font-size: 0.95rem; color: var(--text-muted); line-height: 1.8; margin-bottom: 32px; max-width: 380px; }
+.editorial-body.dark .editorial-p { color: rgba(255,255,255,0.5); }
+.editorial-link {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-size: 0.85rem; font-weight: 700; text-decoration: none;
+  color: var(--text); border-bottom: 1px solid var(--text);
+  padding-bottom: 3px; align-self: flex-start;
+  transition: gap 0.2s;
+}
+.editorial-link:hover { gap: 14px; }
+.editorial-body.dark .editorial-link { color: var(--white); border-bottom-color: rgba(255,255,255,0.5); }
+.editorial-brands-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 28px; }
+.editorial-brand { font-size: 0.7rem; font-weight: 700; padding: 4px 10px; border-radius: 3px; background: var(--bg2); color: var(--text-muted); border: 1px solid var(--border); }
+.editorial-body.dark .editorial-brand { background: rgba(255,255,255,0.07); color: rgba(255,255,255,0.45); border-color: rgba(255,255,255,0.1); }
+
+/* Bose-style value cards row */
+.value-row {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+  background: var(--white);
+}
+.value-card {
+  padding: 40px 32px;
+  border-right: 1px solid var(--border);
+  transition: background 0.2s;
+}
+.value-card:last-child { border-right: none; }
+.value-card:hover { background: var(--bg2); }
+.value-icon { font-size: 1.6rem; margin-bottom: 16px; display: block; }
+.value-title { font-size: 0.92rem; font-weight: 800; color: var(--text); margin-bottom: 8px; }
+.value-desc { font-size: 0.8rem; color: var(--text-muted); line-height: 1.7; }
+
+/* ══ FOOTER ══ */
+footer { background: var(--bg-dark2); padding: 64px 48px 0; }
+.footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; margin-bottom: 48px; border-bottom: 1px solid var(--border-dark); padding-bottom: 48px; }
+.footer-logo img { height: 36px; width: auto; margin-bottom: 16px; }
+.footer-logo p { font-size: 0.8rem; color: rgba(255,255,255,0.35); line-height: 1.7; max-width: 240px; margin-bottom: 20px; }
+.footer-socials { display: flex; gap: 10px; }
+.footer-social { width: 34px; height: 34px; border-radius: 4px; border: 1px solid var(--border-dark); display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,0.35); font-size: 0.75rem; text-decoration: none; transition: border-color 0.2s, color 0.2s; }
+.footer-social:hover { border-color: rgba(255,255,255,0.4); color: var(--white); }
+.footer-col h5 { font-size: 0.65rem; font-weight: 700; color: rgba(255,255,255,0.3); text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: 16px; }
+.footer-col a { display: block; font-size: 0.82rem; color: rgba(255,255,255,0.45); text-decoration: none; margin-bottom: 10px; transition: color 0.2s; }
+.footer-col a:hover { color: var(--white); }
+.footer-middle { padding: 32px 0; border-bottom: 1px solid var(--border-dark); display: flex; justify-content: space-between; align-items: center; }
+.footer-middle p { font-size: 0.72rem; color: rgba(255,255,255,0.25); }
+.footer-bottom-links { display: flex; gap: 20px; }
+.footer-bottom-links a { font-size: 0.72rem; color: rgba(255,255,255,0.25); text-decoration: none; }
+.footer-bottom-links a:hover { color: rgba(255,255,255,0.6); }
+
+/* ══ JBL-STYLE: Giant logo footer ══ */
+.footer-giant-logo {
+  padding: 40px 0 0;
+  overflow: hidden;
+  line-height: 0.85;
+  text-align: center;
+  user-select: none;
+}
+.footer-giant-logo img {
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  opacity: 0.06;
+  display: block;
+  filter: invert(1);
+}
+
+/* ══════════════════════════════════════
+   MOBILE — hamburger menu
+══════════════════════════════════════ */
+.nav-hamburger {
+  display: none; flex-direction: column; justify-content: center;
+  gap: 5px; cursor: pointer; padding: 4px; z-index: 200;
+}
+.nav-hamburger span {
+  display: block; width: 24px; height: 2px;
+  background: var(--white); border-radius: 2px;
+  transition: transform 0.3s, opacity 0.3s;
+}
+.nav-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.nav-hamburger.open span:nth-child(2) { opacity: 0; }
+.nav-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+.mobile-menu {
+  display: none; position: fixed; inset: 0; z-index: 150;
+  background: rgba(0,0,0,0.97);
+  flex-direction: column; justify-content: center; align-items: center;
+  gap: 0; opacity: 0; transition: opacity 0.3s;
+}
+.mobile-menu.open { display: flex; opacity: 1; }
+.mobile-menu a {
+  font-size: 1.6rem; font-weight: 800; color: rgba(255,255,255,0.55);
+  text-decoration: none; letter-spacing: -0.02em;
+  padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,0.06);
+  width: 80%; text-align: center;
+  transition: color 0.2s;
+}
+.mobile-menu a:last-child { border-bottom: none; }
+.mobile-menu a:hover { color: var(--white); }
+.mobile-menu .mobile-cta {
+  margin-top: 24px; font-size: 1rem;
+  background: var(--white); color: var(--text);
+  padding: 16px 40px; border-radius: 4px; border-bottom: none;
+  font-weight: 700; letter-spacing: 0.04em; width: auto;
+}
+
+/* ══════════════════════════════════════
+   BREAKPOINT — tablet / mobile
+══════════════════════════════════════ */
+@media (max-width: 768px) {
+
+  /* NAV */
+  nav { padding: 0 20px; height: 64px; }
+  .nav-logo img { height: 40px; }
+  .nav-center, .nav-right { display: none; }
+  .nav-hamburger { display: flex; }
+
+  /* HERO */
+  .hero { height: 100svh; min-height: 580px; align-items: flex-end; }
+  .hero-content { padding: 0 24px 120px; }
+  .hero-title { font-size: 2.4rem; letter-spacing: -0.03em; }
+  .hero-title span { font-size: 2.4rem; }
+  .hero-sub { font-size: 0.95rem; max-width: 100%; }
+  .hero-actions { flex-direction: column; align-items: flex-start; gap: 12px; }
+  .btn-hero-main { width: 100%; text-align: center; justify-content: center; padding: 16px; font-size: 0.95rem; }
+  .btn-hero-sec { font-size: 0.88rem; }
+  .hero-stats-bar { grid-template-columns: 1fr 1fr 1fr; }
+  .hero-stat { padding: 14px 12px; flex-direction: column; gap: 4px; text-align: center; }
+  .hero-stat-num { font-size: 1.4rem; }
+  .hero-stat-num sup { font-size: 0.75rem; }
+  .hero-stat-label { font-size: 0.6rem; letter-spacing: 0.06em; }
+
+  /* BRANDS */
+  .brands-strip-label { padding: 14px 20px 0; font-size: 0.6rem; }
+  .brand-item { padding: 0 20px; }
+  .brand-item span { font-size: 0.78rem; }
+
+  /* SOLUTIONS */
+  .solutions-section { padding: 48px 20px; }
+  .solutions-header { flex-direction: column; align-items: flex-start; gap: 12px; margin-bottom: 28px; }
+  .section-h2 { font-size: 1.5rem; }
+  .solutions-grid { grid-template-columns: 1fr; gap: 12px; }
+  .sol-card { aspect-ratio: 4 / 3; }
+  .sol-title { font-size: 1.1rem; }
+
+  /* FEATURED PROJECT */
+  .featured-project { height: 480px; }
+  .fp-content { padding: 0 24px; }
+  .fp-title { font-size: 1.6rem; }
+  .fp-desc { font-size: 0.88rem; }
+
+  /* PROJECTS */
+  .projects-section { padding: 48px 20px; }
+  .projects-grid { grid-template-columns: 1fr; gap: 2px; }
+  .proj-card { aspect-ratio: 4 / 3; }
+
+  /* HOW */
+  .how-section { padding: 56px 20px; }
+  .how-grid { grid-template-columns: 1fr; gap: 2px; }
+  .how-step { padding: 32px 24px; }
+  .how-num { font-size: 2.5rem; margin-bottom: 14px; }
+
+  /* WHY */
+  .why-section { padding: 56px 20px; }
+  .why-grid { grid-template-columns: 1fr 1fr; gap: 1px; }
+  .why-item { padding: 28px 20px; }
+  .why-item h4 { font-size: 0.9rem; }
+  .why-item p { font-size: 0.8rem; }
+
+  /* TESTIMONIALS */
+  .testimonials-section { padding: 56px 20px; }
+  .testimonials-grid { grid-template-columns: 1fr; gap: 2px; }
+  .t-card { padding: 28px 24px; }
+
+  /* CTA */
+  .cta-section { grid-template-columns: 1fr; gap: 40px; padding: 64px 20px; }
+  .cta-left h2 { font-size: 1.8rem; }
+  .form-card { padding: 28px 20px; }
+  .form-row { grid-template-columns: 1fr; }
+
+  /* EDITORIAL SPLITS */
+  .editorial-section { grid-template-columns: 1fr; }
+  .editorial-section > .editorial-img { aspect-ratio: 16/9; order: -1; }
+  .editorial-section > .editorial-body { order: 1; }
+  .editorial-body { padding: 40px 24px; }
+  .editorial-h { font-size: 1.6rem; }
+  .editorial-p { font-size: 0.88rem; }
+
+  /* VALUE ROW */
+  .value-row { grid-template-columns: 1fr 1fr; }
+  .value-card { padding: 28px 20px; }
+  .value-card:nth-child(2) { border-right: none; }
+
+  /* FOOTER */
+  footer { padding: 48px 20px 0; }
+  .footer-top { grid-template-columns: 1fr; gap: 36px; }
+  .footer-middle { flex-direction: column; gap: 12px; text-align: center; }
+  .footer-bottom-links { flex-wrap: wrap; justify-content: center; }
+  .footer-giant-logo { padding: 24px 0 0; }
+}
+
+@media (max-width: 480px) {
+  .hero-title { font-size: 2rem; }
+  .why-grid { grid-template-columns: 1fr; }
+  .hero-stat-num { font-size: 1.2rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo"><img src="../../2ce791_e9c9fefe88d1437e893a345aa652ea2a~mv2.png" alt="Ponle Audio"></div>
+  <div class="nav-center">
+    <a href="#">Soluciones</a>
+    <a href="#">Marcas</a>
+    <a href="#">Proyectos</a>
+    <a href="#">Nosotros</a>
+    <a href="#">Contacto</a>
+  </div>
+  <div class="nav-right">
+    <a href="#" class="nav-cta">Agendar Consulta</a>
+  </div>
+  <div class="nav-hamburger" id="hamburger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#" onclick="toggleMenu()">Soluciones</a>
+  <a href="#" onclick="toggleMenu()">Marcas</a>
+  <a href="#" onclick="toggleMenu()">Proyectos</a>
+  <a href="#" onclick="toggleMenu()">Nosotros</a>
+  <a href="#" onclick="toggleMenu()">Contacto</a>
+  <a href="#" class="mobile-cta" onclick="toggleMenu()">Agendar Consulta →</a>
+</div>
+
+<!-- HERO — full width image -->
+<section class="hero">
+  <img class="hero-img" src="https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?w=1800&q=85&fit=crop&crop=center" alt="Auditorio profesional">
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Integración AV Corporativa</div>
+    <h1 class="hero-title">
+      Transforma
+      <span>cada espacio.</span>
+    </h1>
+    <p class="hero-sub">
+      Diseñamos e instalamos soluciones de <strong>audio, video e iluminación</strong> con las mejores marcas del mundo. Para empresas que exigen lo mejor.
+    </p>
+    <div class="hero-actions">
+      <a href="#" class="btn-hero-sec">Más Proyectos →</a>
+    </div>
+  </div>
+  <div class="hero-stats-bar">
+    <div class="hero-stat">
+      <div class="hero-stat-num">200<sup>+</sup></div>
+      <div class="hero-stat-label">Proyectos<br>entregados</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-num">12<sup>+</sup></div>
+      <div class="hero-stat-label">Años de<br>experiencia</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-num">98<sup>%</sup></div>
+      <div class="hero-stat-label">Clientes<br>satisfechos</div>
+    </div>
+  </div>
+</section>
+
+<!-- BRANDS STRIP -->
+<div class="brands-strip">
+  <div class="brands-strip-label">Distribuidores autorizados · Marcas líderes de la industria AV</div>
+  <div class="brands-scroll">
+    <div class="brand-item featured"><span>Martin Audio</span></div>
+    <div class="brand-item featured"><span>Powersoft</span></div>
+    <div class="brand-item"><span>Sennheiser</span></div>
+    <div class="brand-item"><span>Shure</span></div>
+    <div class="brand-item"><span>Bose Pro</span></div>
+    <div class="brand-item"><span>QSC</span></div>
+    <div class="brand-item"><span>JBL Pro</span></div>
+    <div class="brand-item"><span>Yamaha Pro</span></div>
+    <div class="brand-item"><span>Atlas IED</span></div>
+    <div class="brand-item"><span>Optimal Audio</span></div>
+    <div class="brand-item"><span>Crestron</span></div>
+    <div class="brand-item"><span>Extron</span></div>
+    <div class="brand-item"><span>Biamp</span></div>
+    <div class="brand-item"><span>Sony Pro</span></div>
+    <div class="brand-item"><span>Samsung</span></div>
+    <div class="brand-item"><span>Lutron</span></div>
+    <!-- repeat -->
+    <div class="brand-item featured"><span>Martin Audio</span></div>
+    <div class="brand-item featured"><span>Powersoft</span></div>
+    <div class="brand-item"><span>Sennheiser</span></div>
+    <div class="brand-item"><span>Shure</span></div>
+    <div class="brand-item"><span>Bose Pro</span></div>
+    <div class="brand-item"><span>QSC</span></div>
+    <div class="brand-item"><span>JBL Pro</span></div>
+    <div class="brand-item"><span>Yamaha Pro</span></div>
+    <div class="brand-item"><span>Atlas IED</span></div>
+    <div class="brand-item"><span>Optimal Audio</span></div>
+    <div class="brand-item"><span>Crestron</span></div>
+    <div class="brand-item"><span>Extron</span></div>
+    <div class="brand-item"><span>Biamp</span></div>
+    <div class="brand-item"><span>Sony Pro</span></div>
+    <div class="brand-item"><span>Samsung</span></div>
+    <div class="brand-item"><span>Lutron</span></div>
+  </div>
+</div>
+
+<!-- SOLUTIONS GRID — Yamaha square cards -->
+<section class="solutions-section">
+  <div class="solutions-header">
+    <div>
+      <div class="section-tag">Nuestras soluciones</div>
+      <h2 class="section-h2">Todo lo que tu empresa necesita,<br>en un solo partner.</h2>
+    </div>
+    <a href="#" class="see-all">Ver todas las soluciones</a>
+  </div>
+  <div class="solutions-grid">
+    <div class="sol-card">
+      <img src="https://images.unsplash.com/photo-1598653222000-6b7b7a552625?w=700&q=80&fit=crop" alt="Audio profesional">
+      <div class="sol-overlay">
+        <div class="sol-cat">Audio</div>
+        <div class="sol-title">Sistemas de Sonido Profesional</div>
+        <div class="sol-brands">
+          <span class="sol-brand">Martin Audio</span>
+          <span class="sol-brand">Powersoft</span>
+          <span class="sol-brand">QSC</span>
+        </div>
+      </div>
+      <div class="sol-arrow">→</div>
+    </div>
+    <div class="sol-card">
+      <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=700&q=80&fit=crop" alt="Videoconferencia">
+      <div class="sol-overlay">
+        <div class="sol-cat">Video</div>
+        <div class="sol-title">Video & Videoconferencia</div>
+        <div class="sol-brands">
+          <span class="sol-brand">Sony Pro</span>
+          <span class="sol-brand">Crestron</span>
+          <span class="sol-brand">Biamp</span>
+        </div>
+      </div>
+      <div class="sol-arrow">→</div>
+    </div>
+    <div class="sol-card">
+      <img src="https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=700&q=80&fit=crop" alt="Iluminación">
+      <div class="sol-overlay">
+        <div class="sol-cat">Iluminación</div>
+        <div class="sol-title">Iluminación Inteligente</div>
+        <div class="sol-brands">
+          <span class="sol-brand">Lutron</span>
+          <span class="sol-brand">Philips</span>
+          <span class="sol-brand">ETC</span>
+        </div>
+      </div>
+      <div class="sol-arrow">→</div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURED PROJECT -->
+<section class="featured-project">
+  <img class="fp-img" src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=1800&q=85&fit=crop" alt="Auditorio corporativo">
+  <div class="fp-overlay"></div>
+  <div class="fp-content">
+    <span class="fp-tag">Proyecto destacado</span>
+    <h2 class="fp-title">Auditorio Corporativo<br>800 personas</h2>
+    <p class="fp-desc">Sistema line array completo, videowall 4K, iluminación escénica y control centralizado. De la consulta a la entrega en 6 semanas.</p>
+    <div class="fp-brands">
+      <span class="fp-brand">Martin Audio</span>
+      <span class="fp-brand">Powersoft</span>
+      <span class="fp-brand">Crestron</span>
+      <span class="fp-brand">Barco</span>
+    </div>
+    <a href="#" class="fp-cta">Ver caso completo →</a>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section class="projects-section">
+  <div class="solutions-header">
+    <div>
+      <div class="section-tag">Proyectos realizados</div>
+      <h2 class="section-h2">Espacios que transformamos.</h2>
+    </div>
+    <a href="#" class="see-all">Ver todos los proyectos</a>
+  </div>
+  <div class="projects-grid">
+    <div class="proj-card">
+      <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&q=80&fit=crop" alt="Salas corporativas">
+      <div class="proj-overlay">
+        <span class="proj-tag proj-tag-video">Video · Videoconferencia</span>
+        <div class="proj-title">12 Salas de Reuniones Ejecutivas</div>
+        <div class="proj-brands-row">
+          <span class="proj-brand">Biamp</span>
+          <span class="proj-brand">Sennheiser</span>
+          <span class="proj-brand">Sony</span>
+        </div>
+      </div>
+    </div>
+    <div class="proj-card">
+      <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&q=80&fit=crop" alt="Audio ambiente">
+      <div class="proj-overlay">
+        <span class="proj-tag proj-tag-audio">Audio · Ambiente</span>
+        <div class="proj-title">Sistema Multizona Corporativo</div>
+        <div class="proj-brands-row">
+          <span class="proj-brand">Optimal Audio</span>
+          <span class="proj-brand">Atlas IED</span>
+        </div>
+      </div>
+    </div>
+    <div class="proj-card">
+      <img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=800&q=80&fit=crop" alt="Evento corporativo">
+      <div class="proj-overlay">
+        <span class="proj-tag proj-tag-integral">Solución integral</span>
+        <div class="proj-title">Centro de Convenciones</div>
+        <div class="proj-brands-row">
+          <span class="proj-brand">Martin Audio</span>
+          <span class="proj-brand">Barco</span>
+          <span class="proj-brand">Lutron</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how-section">
+  <div class="section-tag">Proceso</div>
+  <h2 class="section-h2">De la idea al espacio transformado.</h2>
+  <div class="how-grid">
+    <div class="how-step">
+      <div class="how-step-line"></div>
+      <div class="how-num">01</div>
+      <h3>Consulta y Diagnóstico</h3>
+      <p>Entendemos tus objetivos, el espacio y el presupuesto. Identificamos oportunidades que quizá no habías considerado.</p>
+    </div>
+    <div class="how-step">
+      <div class="how-step-line"></div>
+      <div class="how-num">02</div>
+      <h3>Diseño e Ingeniería</h3>
+      <p>Solución técnica a medida. Planos, especificaciones de equipo y cronograma de instalación detallado.</p>
+    </div>
+    <div class="how-step">
+      <div class="how-step-line"></div>
+      <div class="how-num">03</div>
+      <h3>Instalación y Entrega</h3>
+      <p>Instalación limpia y en tiempo. Capacitación a tu equipo y soporte post-instalación garantizado.</p>
+    </div>
+  </div>
+</section>
+
+<!-- WHY — dark section -->
+<section class="why-section">
+  <div class="section-tag">Por qué elegirnos</div>
+  <h2 class="section-h2">Ingeniería de clase mundial.<br>Resultados que se sienten.</h2>
+  <div class="why-grid">
+    <div class="why-item">
+      <div class="why-num">01</div>
+      <h4>Integración total AV</h4>
+      <p>Audio, video e iluminación como sistema único. Sin incompatibilidades, sin proveedores que se culpan entre sí.</p>
+    </div>
+    <div class="why-item">
+      <div class="why-num">02</div>
+      <h4>Soluciones a medida</h4>
+      <p>Diseñamos desde cero para tus necesidades y presupuesto real. Nunca paquetes genéricos.</p>
+    </div>
+    <div class="why-item">
+      <div class="why-num">03</div>
+      <h4>Marcas de clase mundial</h4>
+      <p>Martin Audio, Powersoft, Sennheiser, Crestron y más. Distribuidores autorizados con certificaciones directas.</p>
+    </div>
+    <div class="why-item">
+      <div class="why-num">04</div>
+      <h4>Soporte post-instalación</h4>
+      <p>Contratos de mantenimiento y soporte técnico remoto y presencial. No desaparecemos al entregar.</p>
+    </div>
+  </div>
+</section>
+
+<!-- BOSE-STYLE: Value propositions row -->
+<div class="value-row">
+  <div class="value-card">
+    <span class="value-icon">⚡</span>
+    <div class="value-title">Integración total AV</div>
+    <div class="value-desc">Un solo partner para audio, video e iluminación. Sin fricciones, sin excusas.</div>
+  </div>
+  <div class="value-card">
+    <span class="value-icon">🎯</span>
+    <div class="value-title">Diseño a medida</div>
+    <div class="value-desc">Cada proyecto es único. Diseñamos desde cero para tu espacio y presupuesto.</div>
+  </div>
+  <div class="value-card">
+    <span class="value-icon">🏆</span>
+    <div class="value-title">Marcas premium</div>
+    <div class="value-desc">Distribuidores autorizados de las marcas líderes a nivel mundial.</div>
+  </div>
+  <div class="value-card">
+    <span class="value-icon">🛡️</span>
+    <div class="value-title">Soporte continuo</div>
+    <div class="value-desc">Mantenimiento y soporte técnico post-instalación. Siempre disponibles.</div>
+  </div>
+</div>
+
+<!-- BOSE-STYLE: Editorial split — Audio -->
+<div class="editorial-section">
+  <div class="editorial-img">
+    <img src="https://images.unsplash.com/photo-1598653222000-6b7b7a552625?w=900&q=85&fit=crop" alt="Audio line array">
+  </div>
+  <div class="editorial-body">
+    <div class="editorial-eyebrow">Solución destacada</div>
+    <h2 class="editorial-h">Sonido que llena<br>cada rincón.</h2>
+    <p class="editorial-p">Desde una sala de juntas íntima hasta un auditorio de 2,000 personas — diseñamos el sistema exacto que tu espacio necesita, con la acústica como prioridad.</p>
+    <div class="editorial-brands-row">
+      <span class="editorial-brand">Martin Audio</span>
+      <span class="editorial-brand">Powersoft</span>
+      <span class="editorial-brand">Sennheiser</span>
+      <span class="editorial-brand">Shure</span>
+    </div>
+    <a href="#" class="editorial-link">Explorar Audio Profesional →</a>
+  </div>
+</div>
+
+<!-- BOSE-STYLE: Editorial split — Video (imagen derecha) -->
+<div class="editorial-section">
+  <div class="editorial-body gray">
+    <div class="editorial-eyebrow">Solución destacada</div>
+    <h2 class="editorial-h">Colaboración sin<br>fronteras.</h2>
+    <p class="editorial-p">Salas de reuniones que hacen que Teams y Zoom funcionen como deberían. Cámaras PTZ, pantallas 4K y audio de conferencia que captura cada voz.</p>
+    <div class="editorial-brands-row">
+      <span class="editorial-brand">Sony Pro</span>
+      <span class="editorial-brand">Crestron</span>
+      <span class="editorial-brand">Biamp</span>
+      <span class="editorial-brand">Extron</span>
+    </div>
+    <a href="#" class="editorial-link">Explorar Video & Conferencias →</a>
+  </div>
+  <div class="editorial-img">
+    <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=900&q=85&fit=crop" alt="Sala de reuniones">
+  </div>
+</div>
+
+<!-- BOSE-STYLE: Editorial split — Iluminación dark -->
+<div class="editorial-section">
+  <div class="editorial-img">
+    <img src="https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=900&q=85&fit=crop" alt="Iluminación escénica">
+  </div>
+  <div class="editorial-body dark">
+    <div class="editorial-eyebrow">Solución destacada</div>
+    <h2 class="editorial-h">La luz que define<br>el ambiente.</h2>
+    <p class="editorial-p">Iluminación inteligente que transforma la percepción de cualquier espacio. Escenas predefinidas, control por app y eficiencia energética real.</p>
+    <div class="editorial-brands-row">
+      <span class="editorial-brand">Lutron</span>
+      <span class="editorial-brand">Philips</span>
+      <span class="editorial-brand">ETC</span>
+      <span class="editorial-brand">Chauvet</span>
+    </div>
+    <a href="#" class="editorial-link">Explorar Iluminación Inteligente →</a>
+  </div>
+</div>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials-section">
+  <div class="section-tag">Lo que dicen nuestros clientes</div>
+  <h2 class="section-h2">Resultados que hablan por sí solos.</h2>
+  <div class="testimonials-grid">
+    <div class="t-card">
+      <div class="t-stars">★★★★★</div>
+      <p class="t-quote">"La sala de juntas pasó de ser un problema logístico a un argumento de venta. Los clientes que nos visitan quedan impresionados desde que entran."</p>
+      <div class="t-divider"></div>
+      <div class="t-author">M. Rodríguez</div>
+      <div class="t-role">Director General · Consultoría</div>
+    </div>
+    <div class="t-card">
+      <div class="t-stars">★★★★★</div>
+      <p class="t-quote">"Instalaron 8 salas en 3 semanas sin interrumpir operaciones. El nivel de profesionalismo y la calidad del resultado superaron mis expectativas."</p>
+      <div class="t-divider"></div>
+      <div class="t-author">L. Castillo</div>
+      <div class="t-role">Gerente de TI · Empresa Financiera</div>
+    </div>
+    <div class="t-card">
+      <div class="t-stars">★★★★★</div>
+      <p class="t-quote">"El auditorio ahora tiene una acústica y experiencia visual que antes solo veíamos en empresas Fortune 500. Valió cada peso invertido."</p>
+      <div class="t-divider"></div>
+      <div class="t-author">J. Mendoza</div>
+      <div class="t-role">VP de Operaciones · Industria</div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<section class="cta-section">
+  <div class="cta-left">
+    <div class="section-tag">Agenda tu consulta</div>
+    <h2>¿Listo para transformar tu espacio?</h2>
+    <p>En 30 minutos te damos un diagnóstico honesto de lo que necesitas — y lo que no. Sin compromiso.</p>
+    <div class="cta-points">
+      <div class="cta-point"><div class="cta-point-dot"></div>Consulta 100% gratuita y sin compromiso</div>
+      <div class="cta-point"><div class="cta-point-dot"></div>Respuesta en menos de 24 horas hábiles</div>
+      <div class="cta-point"><div class="cta-point-dot"></div>Diagnóstico honesto — te decimos exactamente lo que necesitas</div>
+      <div class="cta-point"><div class="cta-point-dot"></div>Cotización detallada sin letra chica</div>
+    </div>
+  </div>
+  <div class="form-card">
+    <div class="form-title">Agendar Consulta Gratuita</div>
+    <div class="form-sub">Respuesta garantizada en menos de 24 horas hábiles</div>
+    <div class="form-row">
+      <div class="form-field"><label>Nombre</label><input type="text" placeholder="Tu nombre"></div>
+      <div class="form-field"><label>Empresa</label><input type="text" placeholder="Nombre de empresa"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-field"><label>Email</label><input type="email" placeholder="tu@empresa.com"></div>
+      <div class="form-field"><label>Teléfono</label><input type="tel" placeholder="+52 442 000 0000"></div>
+    </div>
+    <div class="form-field">
+      <label>¿Qué necesitas?</label>
+      <select>
+        <option>Audio profesional</option>
+        <option>Video / Videoconferencia</option>
+        <option>Iluminación inteligente</option>
+        <option>Solución integral AV</option>
+        <option>No lo sé aún — quiero asesoría</option>
+      </select>
+    </div>
+    <div class="form-field"><label>Cuéntanos tu proyecto</label><textarea placeholder="¿Cuántos espacios? ¿Para cuántas personas? ¿Tienes fecha objetivo?"></textarea></div>
+    <button class="form-submit">Enviar solicitud</button>
+    <p class="form-note">Sin spam. Sin compromiso. Solo una conversación útil.</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-logo">
+      <img src="../../2ce791_e9c9fefe88d1437e893a345aa652ea2a~mv2.png" alt="Ponle Audio">
+      <p>Soluciones integrales de audio, video e iluminación con las mejores marcas del mundo.</p>
+      <div class="footer-socials">
+        <a href="#" class="footer-social">in</a>
+        <a href="#" class="footer-social">ig</a>
+        <a href="#" class="footer-social">fb</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h5>Soluciones</h5>
+      <a href="#">Audio Profesional</a>
+      <a href="#">Video & Pantallas</a>
+      <a href="#">Iluminación</a>
+      <a href="#">Consultoría AV</a>
+    </div>
+    <div class="footer-col">
+      <h5>Marcas</h5>
+      <a href="#">Martin Audio</a>
+      <a href="#">Powersoft</a>
+      <a href="#">Sennheiser</a>
+      <a href="#">Crestron</a>
+      <a href="#">Ver todas →</a>
+    </div>
+    <div class="footer-col">
+      <h5>Contacto</h5>
+      <a href="#">hola@ponleaudio.com</a>
+      <a href="#">Querétaro, México</a>
+      <a href="#">+52 442 000 0000</a>
+    </div>
+  </div>
+
+  <!-- Legal row -->
+  <div class="footer-middle">
+    <p>© 2025 Ponle Audio. Todos los derechos reservados.</p>
+    <div class="footer-bottom-links">
+      <a href="#">Aviso de Privacidad</a>
+      <a href="#">Términos de Uso</a>
+    </div>
+  </div>
+
+</footer>
+
+<script>
+function toggleMenu() {
+  const menu = document.getElementById('mobileMenu');
+  const burger = document.getElementById('hamburger');
+  menu.classList.toggle('open');
+  burger.classList.toggle('open');
+  document.body.style.overflow = menu.classList.contains('open') ? 'hidden' : '';
+}
+</script>
+</body>
+</html>
